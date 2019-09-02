@@ -1,0 +1,6 @@
+data/com.dinamita.filters.desktop.in
+data/com.dinamita.filters.appdata.xml.in
+data/com.dinamita.filters.gschema.xml
+src/main.vala
+src/window.vala
+
