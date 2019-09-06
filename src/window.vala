@@ -4,24 +4,25 @@ namespace Pirate_filter {
 	public class Window : Gtk.ApplicationWindow {
 
 	    private Toolbar toolbar;
-	    private Box content;
+	    private Box box;
 	    private Image image;
 	    Gtk.ToolButton open_button;
 	    private TextView text_view;
 
         /*
-         * Constructor.
+         * Buider.
          * */
 		public Window (Gtk.Application app) {
 			Object (application: app);
 			this.set_default_size(600, 600);
 
-			content = new Box (Orientation.VERTICAL, 0);
+            //Set up the UI
+			box = new Box (Orientation.VERTICAL, 5);
 			image = new Image ();
 			create_toolbar ();
-			content.pack_start (image);
-			content.pack_start (toolbar, false, true, 0);
-			this.add (content);
+			box.pack_start (image, true, true, 0);
+			box.pack_start (toolbar, false, true, 0);
+			this.add (box);
 			this.show_all ();
 			this.destroy.connect (main_quit);
 		}
@@ -30,9 +31,7 @@ namespace Pirate_filter {
             toolbar = new Gtk.Toolbar ();
             toolbar.get_style_context ().add_class (Gtk.STYLE_CLASS_PRIMARY_TOOLBAR);
 
-            /*
-             * Creates the toolbutton for open the image.
-             * */
+            //Creates the toolbutton for open the image.
             open_button = new Gtk.ToolButton (null, "Open");
             open_button.is_important = true;
             toolbar.add (open_button);
