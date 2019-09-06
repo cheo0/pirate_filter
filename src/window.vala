@@ -27,17 +27,28 @@ namespace Pirate_filter {
 
         private Toolbar create_toolbar () {
             var toolbar = new Toolbar ();
+            var open_button = new ToolButton (null, "Open");
             toolbar.get_style_context ()
                 .add_class (Gtk.STYLE_CLASS_PRIMARY_TOOLBAR);
-            var open_button = new ToolButton (null, "Open");
             open_button.is_important = true;
             toolbar.add (open_button);
+            toolbar.add (create_menu_button());
             open_button.clicked.connect (on_open_clicked);
-            open_button.show ();
+            toolbar.show ();
             return toolbar;
         }
 
-        private void on_open_clicked () {
+        private MenuToolButton create_menu_button () {
+            var filters_menu = new MenuToolButton (null, "Filters");
+            var model = new GLib.Menu ();
+            model.append ("Red filter", "win.red");
+            model.append ("Blue filter", "win.blue");
+            model.append ("Green filter", "win.green");
+            filters_menu.set_menu (new Gtk.Menu.from_model(model));
+            return filters_menu;
+        }
+
+        private void on_open_clicked (ToolButton self) {
             var dialog = new FileChooserDialog (
                 "Open Image", this, FileChooserAction.OPEN, "_Open",
                 ResponseType.ACCEPT, "_Cancel", ResponseType.CANCEL
