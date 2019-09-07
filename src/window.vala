@@ -3,6 +3,8 @@ using Gtk;
 namespace Pirate_filter {
     public class Window : Gtk.ApplicationWindow {
 
+        delegate void Action (GLib.SimpleAction simple, Variant? parameter);
+
         private Image image = new Image ();
         private Box content = new Box (Orientation.VERTICAL, 0);
 
@@ -12,6 +14,9 @@ namespace Pirate_filter {
             content.pack_start (create_toolbar(), false, true, 0);
             content.pack_start (create_scroll(), true, true, 0);
             this.add (content);
+            create_action ("red", red_filter_cb);
+            create_action ("blue", blue_filter_cb);
+            create_action ("green", green_filter_cb);
             this.show_all ();
             this.destroy.connect (main_quit);
         }
@@ -48,6 +53,12 @@ namespace Pirate_filter {
             return filters_menu;
         }
 
+        private void create_action (string name_action, Action action) {
+            var new_action = new SimpleAction (name_action, null);
+            new_action.activate.connect (action);
+            this.add_action (new_action);
+        }
+
         private void on_open_clicked (ToolButton self) {
             var dialog = new FileChooserDialog (
                 "Open Image", this, FileChooserAction.OPEN, "_Open",
@@ -56,6 +67,18 @@ namespace Pirate_filter {
             if (dialog.run () == ResponseType.ACCEPT)
                 image.set_from_file (dialog.get_filename ());
             dialog.destroy ();
+        }
+
+        void red_filter_cb (SimpleAction simple, Variant? parameter) {
+            stdout.printf ("\nRed\n");
+        }
+
+        void blue_filter_cb (SimpleAction simple, Variant? parameter) {
+            stdout.printf ("\nBlue\n");
+        }
+
+        void green_filter_cb (GLib.SimpleAction simple, Variant? parameter) {
+            stdout.printf ("\nGreen\n");
         }
     }
 }
