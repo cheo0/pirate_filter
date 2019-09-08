@@ -1,5 +1,5 @@
 namespace Pirate_filter.Filters {
-    public class BlueFilter : Filter {
+    public class BlueFilter : Filters.Filter {
         public void apply_filter (Gtk.Image image) {
             var pixbuf_img = image.pixbuf.copy ();
             var bytes_img = pixbuf_img.pixel_bytes.get_data ();

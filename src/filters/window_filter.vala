@@ -8,7 +8,7 @@ namespace Pirate_filter.Filters {
             show_all ();
         }
 
-        private Gtk.ScrolledWindow create_scroll (Gtk.Widget w) {
+        Gtk.ScrolledWindow create_scroll (Gtk.Widget w) {
             var scroll = new Gtk.ScrolledWindow (null, null);
             scroll.show ();
             scroll.hexpand = true;
