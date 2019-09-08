@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1567919389 "/home/derek/pirate_filter/Latex_PDF/Tarea02.tex" "/home/derek/pirate_filter/Latex_PDF/Tarea02.pdf" "Tarea02" 1567919389
+["pdflatex"] 1567919777 "/home/derek/pirate_filter/Latex_PDF/Tarea02.tex" "/home/derek/pirate_filter/Latex_PDF/Tarea02.pdf" "Tarea02" 1567919778
   "/etc/texmf/web2c/texmf.cnf" 1566186178 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/derek/pirate_filter/Latex_PDF/Tarea02.aux" 1567919389 112 e1f9d66d8ef9afcbeb5c456c0a391ffb ""
-  "/home/derek/pirate_filter/Latex_PDF/Tarea02.tex" 1567919388 3060 f2fc9f3caa1c741f418f5c0f72edaae2 ""
+  "/home/derek/pirate_filter/Latex_PDF/Tarea02.aux" 1567919777 112 e1f9d66d8ef9afcbeb5c456c0a391ffb ""
+  "/home/derek/pirate_filter/Latex_PDF/Tarea02.tex" 1567919777 3134 8282f4962ed6546f96f27e1b70b52de3 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1480098701 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1480098701 1288 655e228510b4c2a1abe905c368440826 ""
@@ -28,11 +28,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1520210507 32485 c64754543d8ac501bea6e75e209ea521 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1566186449 2700761 ac0584cc9514ab21918550a6948c4ee2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1566186521 4129310 2120bfa548904873242dddf49a22097f ""
-  "Tarea02.aux" 1567919389 112 e1f9d66d8ef9afcbeb5c456c0a391ffb ""
-  "Tarea02.tex" 1567919388 3060 f2fc9f3caa1c741f418f5c0f72edaae2 ""
+  "Tarea02.aux" 1567919777 112 e1f9d66d8ef9afcbeb5c456c0a391ffb ""
+  "Tarea02.tex" 1567919777 3134 8282f4962ed6546f96f27e1b70b52de3 ""
   (generated)
+  "/home/derek/pirate_filter/Latex_PDF/Tarea02.pdf"
+  "Tarea02.pdf"
   "Tarea02.log"
   "Tarea02.aux"
-  "/home/derek/pirate_filter/Latex_PDF/Tarea02.pdf"
   "/home/derek/pirate_filter/Latex_PDF/Tarea02.log"
-  "Tarea02.pdf"
