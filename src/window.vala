@@ -18,10 +18,11 @@ namespace Pirate_filter {
             create_action ("blue", blue_filter_cb);
             create_action ("green", green_filter_cb);
             this.show_all ();
+            stdout.printf ("\n%s\n", image.resource);
             this.destroy.connect (main_quit);
         }
 
-        private ScrolledWindow create_scroll () {
+        public ScrolledWindow create_scroll () {
             var scroll = new ScrolledWindow (null, null);
             scroll.show ();
             scroll.hexpand = true;
@@ -70,15 +71,30 @@ namespace Pirate_filter {
         }
 
         void red_filter_cb (SimpleAction simple, Variant? parameter) {
-            stdout.printf ("\nRed\n");
+            if (image.resource == null)
+                stdout.printf ("Sin imagen");
+            else {
+                var red_filter = new Filters.RedFilter ();
+                red_filter.apply_filter (this.image);
+            }
         }
 
         void blue_filter_cb (SimpleAction simple, Variant? parameter) {
-            stdout.printf ("\nBlue\n");
+            if (image.resource == null)
+                stdout.printf ("Sin imagen");
+            else {
+                var blue_filter = new Filters.BlueFilter ();
+                blue_filter.apply_filter (this.image);
+            }
         }
 
         void green_filter_cb (GLib.SimpleAction simple, Variant? parameter) {
-            stdout.printf ("\nGreen\n");
+            if (image.resource == null)
+                stdout.printf ("Sin imagen");
+            else {
+                var green_filter = new Filters.GreenFilter ();
+                green_filter.apply_filter (this.image);
+            }
         }
     }
 }
