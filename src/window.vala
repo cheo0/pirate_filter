@@ -5,8 +5,8 @@ namespace Pirate_filter {
 
         delegate void Action (GLib.SimpleAction simple, Variant? parameter);
 
-        private Image image = new Image ();
-        private Box content = new Box (Orientation.VERTICAL, 0);
+        Image image = new Image ();
+        Box content = new Box (Orientation.VERTICAL, 0);
 
         public Window (Gtk.Application app) {
             Object (application: app);
@@ -31,7 +31,7 @@ namespace Pirate_filter {
             return scroll;
         }
 
-        private Toolbar create_toolbar () {
+        Toolbar create_toolbar () {
             var toolbar = new Toolbar ();
             var open_button = new ToolButton (null, "Open");
             toolbar.get_style_context ()
@@ -44,7 +44,7 @@ namespace Pirate_filter {
             return toolbar;
         }
 
-        private MenuToolButton create_menu_button () {
+        MenuToolButton create_menu_button () {
             var filters_menu = new MenuToolButton (null, "Filters");
             var model = new GLib.Menu ();
             model.append ("Red filter", "win.red");
@@ -54,24 +54,27 @@ namespace Pirate_filter {
             return filters_menu;
         }
 
-        private void create_action (string name_action, Action action) {
+        void create_action (string name_action, Action action) {
             var new_action = new SimpleAction (name_action, null);
             new_action.activate.connect (action);
             this.add_action (new_action);
         }
 
-        private void on_open_clicked (ToolButton self) {
+        void on_open_clicked (ToolButton self) {
             var dialog = new FileChooserDialog (
                 "Open Image", this, FileChooserAction.OPEN, "_Open",
                 ResponseType.ACCEPT, "_Cancel", ResponseType.CANCEL
             );
+            var filter = new FileFilter ();
+            filter.add_pixbuf_formats ();
+            dialog.set_filter (filter);
             if (dialog.run () == ResponseType.ACCEPT)
                 image.set_from_file (dialog.get_filename ());
             dialog.destroy ();
         }
 
         void red_filter_cb (SimpleAction simple, Variant? parameter) {
-            if (image.resource == null)
+            if (image.file == null)
                 stdout.printf ("Sin imagen");
             else {
                 var red_filter = new Filters.RedFilter ();
@@ -80,7 +83,7 @@ namespace Pirate_filter {
         }
 
         void blue_filter_cb (SimpleAction simple, Variant? parameter) {
-            if (image.resource == null)
+            if (image.file == null)
                 stdout.printf ("Sin imagen");
             else {
                 var blue_filter = new Filters.BlueFilter ();
@@ -89,7 +92,7 @@ namespace Pirate_filter {
         }
 
         void green_filter_cb (GLib.SimpleAction simple, Variant? parameter) {
-            if (image.resource == null)
+            if (image.file == null)
                 stdout.printf ("Sin imagen");
             else {
                 var green_filter = new Filters.GreenFilter ();
