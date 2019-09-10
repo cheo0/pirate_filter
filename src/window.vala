@@ -3,7 +3,7 @@ using Gtk;
 namespace Pirate_filter {
     public class Window : Gtk.ApplicationWindow {
 
-        delegate void Action (GLib.SimpleAction simple, Variant? parameter);
+        delegate void Action (SimpleAction simple, Variant? parameter);
 
         Image image = new Image ();
         Box content = new Box (Orientation.VERTICAL, 0);
@@ -12,22 +12,21 @@ namespace Pirate_filter {
             Object (application: app);
             this.set_default_size(600, 600);
             content.pack_start (create_toolbar(), false, true, 0);
-            content.pack_start (create_scroll(), true, true, 0);
+            content.pack_start (create_scroll(image), true, true, 0);
             this.add (content);
             create_action ("red", red_filter_cb);
             create_action ("blue", blue_filter_cb);
             create_action ("green", green_filter_cb);
             this.show_all ();
-            stdout.printf ("\n%s\n", image.resource);
             this.destroy.connect (main_quit);
         }
 
-        public ScrolledWindow create_scroll () {
+        public ScrolledWindow create_scroll (Widget w) {
             var scroll = new ScrolledWindow (null, null);
             scroll.show ();
             scroll.hexpand = true;
             scroll.vexpand = true;
-            scroll.add (image);
+            scroll.add (w);
             return scroll;
         }
 
@@ -91,7 +90,7 @@ namespace Pirate_filter {
             }
         }
 
-        void green_filter_cb (GLib.SimpleAction simple, Variant? parameter) {
+        void green_filter_cb (SimpleAction simple, Variant? parameter) {
             if (image.file == null)
                 stdout.printf ("Sin imagen");
             else {
