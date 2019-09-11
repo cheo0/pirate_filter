@@ -8,8 +8,8 @@ namespace PirateFilter.Filters {
             int rowstride = img.get_rowstride ();
             var limit = img.has_alpha ? 4 : 3;
             for (var y = 0; y < data.length; y += limit) {
-                new_data[y] = data[y];
                 new_data[y] = 0;
+                new_data[y + 1] = data[y];
                 new_data[y + 2] = 0;
                 if (limit == 4)
                     new_data[y + 3] = data[y + 3];
