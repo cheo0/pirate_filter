@@ -1,6 +1,14 @@
 pirate_filter_sources = [
   'main.vala',
   'window.vala',
+  'app.vala',
+  'namespace.vala',
+  'filters/filter.vala',
+  'filters/namespace.vala',
+  'filters/red_filter.vala',
+  'filters/window_filter.vala',
+  'filters/blue_filter.vala',
+  'filters/green_filter.vala'
 ]
 
 pirate_filter_deps = [
