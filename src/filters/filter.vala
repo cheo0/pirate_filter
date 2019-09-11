@@ -1,5 +1,5 @@
-namespace Pirate_filter.Filters {
+namespace PirateFilter.Filters {
     public interface Filter {
-        public abstract void apply_filter (Gtk.Image image);
+        public abstract void apply_filter (Gdk.Pixbuf img);
     }
 }

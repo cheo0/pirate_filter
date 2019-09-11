@@ -1,102 +1,107 @@
-using Gtk;
 
-namespace Pirate_filter {
+namespace PirateFilter {
     public class Window : Gtk.ApplicationWindow {
 
-        delegate void Action (SimpleAction simple, Variant? parameter);
+        delegate void MenuItemAction ();
 
-        Image image = new Image ();
-        Box content = new Box (Orientation.VERTICAL, 0);
+        Gdk.Pixbuf img_pixbuf;
+        Gtk.Image image = new Gtk.Image ();
+        Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
         public Window (Gtk.Application app) {
             Object (application: app);
-            this.set_default_size(600, 600);
-            content.pack_start (create_toolbar(), false, true, 0);
-            content.pack_start (create_scroll(image), true, true, 0);
-            this.add (content);
-            create_action ("red", red_filter_cb);
-            create_action ("blue", blue_filter_cb);
-            create_action ("green", green_filter_cb);
-            this.show_all ();
-            this.destroy.connect (main_quit);
+            set_default_size (800, 800);
+            set_titlebar (create_headerbar ());
+            content.pack_start (create_scroll (image), true, true, 0);
+            add (content);
+            show_all ();
+            destroy.connect (Gtk.main_quit);
         }
 
-        public ScrolledWindow create_scroll (Widget w) {
-            var scroll = new ScrolledWindow (null, null);
+        Gtk.ScrolledWindow create_scroll (Gtk.Widget w) {
+            var scroll = new Gtk.ScrolledWindow (null, null);
             scroll.show ();
-            scroll.hexpand = true;
             scroll.vexpand = true;
+            scroll.hexpand = true;
             scroll.add (w);
             return scroll;
         }
 
-        Toolbar create_toolbar () {
-            var toolbar = new Toolbar ();
-            var open_button = new ToolButton (null, "Open");
-            toolbar.get_style_context ()
-                .add_class (Gtk.STYLE_CLASS_PRIMARY_TOOLBAR);
-            open_button.is_important = true;
-            toolbar.add (open_button);
-            toolbar.add (create_menu_button());
-            open_button.clicked.connect (on_open_clicked);
-            toolbar.show ();
-            return toolbar;
+        Gtk.HeaderBar create_headerbar () {
+            var headbar = new Gtk.HeaderBar ();
+            headbar.title = "Pirate filter";
+            headbar.pack_start (create_open_button ());
+            headbar.pack_end (create_menu_filters ());
+            headbar.show_close_button = true;
+            headbar.show ();
+            return headbar;
         }
 
-        MenuToolButton create_menu_button () {
-            var filters_menu = new MenuToolButton (null, "Filters");
-            var model = new GLib.Menu ();
-            model.append ("Red filter", "win.red");
-            model.append ("Blue filter", "win.blue");
-            model.append ("Green filter", "win.green");
-            filters_menu.set_menu (new Gtk.Menu.from_model(model));
-            return filters_menu;
+        Gtk.Button create_open_button () {
+            var button = new Gtk.Button.from_icon_name ("document-open",
+                Gtk.IconSize.SMALL_TOOLBAR);
+            button.clicked.connect (on_open_clicked);
+            button.show ();
+            return button;
         }
 
-        void create_action (string name_action, Action action) {
-            var new_action = new SimpleAction (name_action, null);
-            new_action.activate.connect (action);
-            this.add_action (new_action);
+        Gtk.MenuButton create_menu_filters () {
+            var menu_filters = new Gtk.MenuButton ();
+            var menu = new Gtk.Menu ();
+            menu_filters.popup = menu;
+            var red_filter = new Gtk.MenuItem.with_label ("Red filter");
+            var blue_filter = new Gtk.MenuItem.with_label ("Blue filter");
+            var green_filter = new Gtk.MenuItem.with_label ("Green filter");
+            red_filter.activate.connect (red_filter_cb);
+            blue_filter.activate.connect (blue_filter_cb);
+            green_filter.activate.connect (green_filter_cb);
+            menu.append (red_filter);
+            menu.append (blue_filter);
+            menu.append (green_filter);
+            menu.show_all ();
+            menu_filters.set_image (
+                new Gtk.Image.from_icon_name ("emblem-photos",
+                                              Gtk.IconSize.SMALL_TOOLBAR));
+            menu_filters.show ();
+            return menu_filters;
         }
 
-        void on_open_clicked (ToolButton self) {
-            var dialog = new FileChooserDialog (
-                "Open Image", this, FileChooserAction.OPEN, "_Open",
-                ResponseType.ACCEPT, "_Cancel", ResponseType.CANCEL
-            );
-            var filter = new FileFilter ();
+        void on_open_clicked () {
+            var filter = new Gtk.FileFilter ();
+            var img_chooser = new Gtk.FileChooserDialog ("Open Image", this,
+                Gtk.FileChooserAction.OPEN, "_Open", Gtk.ResponseType.ACCEPT,
+                "_Cancel", Gtk.ResponseType.CANCEL);
             filter.add_pixbuf_formats ();
-            dialog.set_filter (filter);
-            if (dialog.run () == ResponseType.ACCEPT)
-                image.set_from_file (dialog.get_filename ());
-            dialog.destroy ();
+            img_chooser.set_filter (filter);
+            if (img_chooser.run () == Gtk.ResponseType.ACCEPT) {
+                try {
+                    var filename = img_chooser.get_filename ();
+                    image.set_from_file (filename);
+                    img_pixbuf = new Gdk.Pixbuf.from_file (filename);
+                } catch (GLib.Error err) {
+                    stdout.printf ("\nError al leer el archivo.\n");
+                }
+            }
+            img_chooser.destroy ();
         }
 
-        void red_filter_cb (SimpleAction simple, Variant? parameter) {
-            if (image.file == null)
-                stdout.printf ("Sin imagen");
-            else {
-                var red_filter = new Filters.RedFilter ();
-                red_filter.apply_filter (this.image);
-            }
+        void red_filter_cb () {
+            var red_filter = new Filters.RedFilter ();
+            if (img_pixbuf != null)
+                red_filter.apply_filter (img_pixbuf);
         }
 
-        void blue_filter_cb (SimpleAction simple, Variant? parameter) {
-            if (image.file == null)
-                stdout.printf ("Sin imagen");
-            else {
-                var blue_filter = new Filters.BlueFilter ();
-                blue_filter.apply_filter (this.image);
-            }
+        void blue_filter_cb () {
+            var blue_filter = new Filters.BlueFilter ();
+            if (img_pixbuf != null)
+                blue_filter.apply_filter (img_pixbuf);
         }
 
-        void green_filter_cb (SimpleAction simple, Variant? parameter) {
-            if (image.file == null)
-                stdout.printf ("Sin imagen");
-            else {
-                var green_filter = new Filters.GreenFilter ();
-                green_filter.apply_filter (this.image);
-            }
+        void green_filter_cb () {
+            var green_filter = new Filters.GreenFilter ();
+            if (img_pixbuf != null)
+                green_filter.apply_filter (img_pixbuf);
         }
+
     }
 }
