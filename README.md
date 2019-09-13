@@ -6,6 +6,13 @@
 -Ortiz Montaño José Eliseo
 316184766
 
+El proceso de instalación es el siguiente:
+$ cd path/to/pirate_filter
+$ meson build
+$ cd build
+$ ninja
+$ ./src/pirate_filter
+
 El link para ver la documentación es el siguiente:
 https://DerekAlmanza.github.io/pirate_filter/doc/index.html
 
