@@ -22,6 +22,7 @@ namespace PirateFilter.Filters {
             int height = img.get_height ();
             int rowstride = img.get_rowstride ();
             var limit = img.has_alpha ? 4 : 3;
+            var dif = data.length - ((width * height) * limit);
             for (var y = 0; y < data.length; y += limit) {
                 new_data[y] = data[y];
                 new_data[y + 1] = 0;

@@ -25,7 +25,7 @@ namespace PirateFilter.Filters {
             for (var y = 0; y < data.length; y += limit) {
                 new_data[y] = 0;
                 new_data[y + 1] = 0;
-                new_data[y + 2] = data[y];
+                new_data[y + 2] =data[y + 2];
                 if (limit == 4)
                     new_data[y + 3] = data[y + 3];
             }
