@@ -1,0 +1,10 @@
+Build started at 2019-09-11T18:19:13.643461
+Main binary: /usr/bin/python3
+Python system: Linux
+The Meson build system
+Version: 0.45.1
+Source dir: /home/derek/pirate_filter/src
+Build dir: /home/derek/pirate_filter/src/build
+Build type: native build
+
+ERROR: First statement must be a call to project

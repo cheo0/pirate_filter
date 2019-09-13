@@ -1,4 +1,8 @@
 namespace PirateFilter {
+
+    /**
+     * Main class of the proyect that inherites of // ApplicationWindow //
+     */
     public class Window : Gtk.ApplicationWindow {
 
         delegate void MenuItemAction ();
@@ -7,6 +11,10 @@ namespace PirateFilter {
         Gtk.Image image = new Gtk.Image ();
         Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
+        /**
+         * Method that creates the main window, defines the size and the
+         * content.
+         */
         public Window (Gtk.Application app) {
             Object (application: app);
             set_default_size (800, 800);
@@ -17,6 +25,10 @@ namespace PirateFilter {
             destroy.connect (Gtk.main_quit);
         }
 
+        /*
+         * Creates a vertical and horizontal scrollbar to scroll
+         * through the image.
+         */
         Gtk.ScrolledWindow create_scroll (Gtk.Widget w) {
             var scroll = new Gtk.ScrolledWindow (null, null);
             scroll.show ();
@@ -26,6 +38,10 @@ namespace PirateFilter {
             return scroll;
         }
 
+        /*
+         * Creates a header where will be the open button and the
+         * filters button.
+         * */
         Gtk.HeaderBar create_headerbar () {
             var headbar = new Gtk.HeaderBar ();
             headbar.title = "Pirate filter";
@@ -36,6 +52,9 @@ namespace PirateFilter {
             return headbar;
         }
 
+        /*
+         * Creates an open button to explorer the files and found the image.
+         * */
         Gtk.Button create_open_button () {
             var button = new Gtk.Button.from_icon_name ("document-open",
                 Gtk.IconSize.SMALL_TOOLBAR);
@@ -44,6 +63,12 @@ namespace PirateFilter {
             return button;
         }
 
+        /*
+         * Creates a menu button which will counts with three filters;
+         *  1. Red Filter.
+         *  2. Blue Filter.
+         *  3. Green Filter
+         * */
         Gtk.MenuButton create_menu_filters () {
             var menu_filters = new Gtk.MenuButton ();
             var menu = new Gtk.Menu ();
@@ -65,7 +90,18 @@ namespace PirateFilter {
             return menu_filters;
         }
 
-        void on_open_clicked () {
+        /*
+         * Method connected with // create_open_button // for open the image
+         * with the use of file manager.
+         * @var filter Creates a fileFilter from imamge.
+         * @var img_chooser Helps to choose the options between:
+         *  #Open Image.
+         *  #Open.
+         *  #Cancel.
+         * @var filename = Helps to choose the image.
+         * @throws Glib.Error If the user choose a file that is not an image.
+         * */
+         void on_open_clicked () {
             var filter = new Gtk.FileFilter ();
             var img_chooser = new Gtk.FileChooserDialog ("Open Image", this,
                 Gtk.FileChooserAction.OPEN, "_Open", Gtk.ResponseType.ACCEPT,
@@ -85,18 +121,34 @@ namespace PirateFilter {
             img_chooser.destroy ();
         }
 
+        /*
+         * Method responsible of apply the red filter, is connected with the
+         * menu button.
+         * @var red_filter Initializes an object of type Filters which instance
+         *  a RedFIlter
+         * */
         void red_filter_cb () {
             var red_filter = new Filters.RedFilter ();
             if (img_pixbuf != null)
                 red_filter.apply_filter (img_pixbuf);
         }
 
+        /* Method responsible of apply the blue filter, is connected with the
+         * menu button.
+         * @var red_filter Initializes an object of type Filters which instance
+         *  a BlueFIlter
+         * */
         void blue_filter_cb () {
             var blue_filter = new Filters.BlueFilter ();
             if (img_pixbuf != null)
                 blue_filter.apply_filter (img_pixbuf);
         }
 
+        /* Method responsible of apply the green filter, is connected with the
+         * menu button.
+         * @var red_filter Initializes an object of type Filters which instance
+         *  a GreenFIlter
+         * */
         void green_filter_cb () {
             var green_filter = new Filters.GreenFilter ();
             if (img_pixbuf != null)

@@ -1,5 +1,20 @@
 namespace PirateFilter.Filters {
+
+    /**
+     * Class that inherites from // Filter // for applies the blue filter in
+     * the image.
+     * */
     public class BlueFilter : Filter {
+
+        /**
+         * Method that instance from // Filter // and especifies how will
+         * apllies the blue filter. Creates a bytes array. After if has alpha,
+         * will divide them in a package of arrays of 4 places, otherwise will
+         * package them in arrays of 3 places. Followed inmediately will go over
+         * the arrays and will see what byte is the red and green byte and will put
+         * their value in 0.
+         * @param img The image that will applies the filter.
+         * */
         public void apply_filter (Gdk.Pixbuf img) {
             var data = img.pixel_bytes.get_data ();
             var new_data = new uint8[data.length];
